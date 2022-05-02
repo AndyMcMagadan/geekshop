@@ -1,0 +1,18 @@
+TEST#001
+before optimizations
+
+The server is now under siege...[alert] socket: select and discovered it's not ready sock.c:351: Connection timed out
+[alert] socket: read check timed out(30) sock.c:240: Connection timed out
+
+Transactions:                    699 hits
+Availability:                  99.86 %
+Elapsed time:                  55.82 secs
+Data transferred:              22.82 MB
+Response time:                  1.86 secs
+Transaction rate:              12.52 trans/sec
+Throughput:                     0.41 MB/sec
+Concurrency:                   23.34
+Successful transactions:         699
+Failed transactions:               1
+Longest transaction:           25.80
+Shortest transaction:           0.01
