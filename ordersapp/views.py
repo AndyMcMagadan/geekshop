@@ -30,14 +30,16 @@ class OrderItemsCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         data = super(OrderItemsCreate, self).get_context_data(**kwargs)
-        OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=1)
+        OrderFormSet = inlineformset_factory(
+            Order, OrderItem, form=OrderItemForm, extra=1)
 
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
         else:
             basket_items = self.request.user.basket.select_related().order_by("product__category")
             if len(basket_items):
-                OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=len(basket_items))
+                OrderFormSet = inlineformset_factory(
+                    Order, OrderItem, form=OrderItemForm, extra=len(basket_items))
                 formset = OrderFormSet()
                 for num, form in enumerate(formset.forms):
                     form.initial["product"] = basket_items[num].product
@@ -85,10 +87,12 @@ class OrderItemsUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         data = super(OrderItemsUpdate, self).get_context_data(**kwargs)
-        OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=1)
+        OrderFormSet = inlineformset_factory(
+            Order, OrderItem, form=OrderItemForm, extra=1)
 
         if self.request.POST:
-            data["orderitems"] = OrderFormSet(self.request.POST, instance=self.object)
+            data["orderitems"] = OrderFormSet(
+                self.request.POST, instance=self.object)
         else:
             queryset = self.object.orderitems.select_related()
             formset = OrderFormSet(instance=self.object, queryset=queryset)
@@ -132,7 +136,12 @@ def order_forming_complete(request, pk):
 @receiver(pre_save, sender=Basket)
 def product_quantity_update_save(instance, sender, **kwargs):
     if instance.pk:
+<<<<<<< HEAD
         instance.product.quantity = F("quantity") - (instance.quantity - sender.get_item(instance.pk).quantity)
+=======
+        instance.product.quantity = F(
+            "quantity") - (instance.quantity - sender.get_item(instance.pk).quantity)
+>>>>>>> f9ae5596b3c5630bfe9ed2eb4477cae15b0b92b5
     else:
         instance.product.quantity = F("quantity") - instance.quantity
     instance.product.save()
