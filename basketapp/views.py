@@ -1,7 +1,7 @@
+from django.db.models import F
+from django.db import connection
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.db import connection
-from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
 from django.template.loader import render_to_string
@@ -36,18 +36,17 @@ def basket_add(request, pk):
 
     basket.save()
 
-<<<<<<< HEAD
-    update_queries = list(filter(lambda x: "UPDATE" in x["sql"], connection.queries))
-    print(f"query basket_add: {update_queries}")
-
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
-
-=======
     update_queries = list(
         filter(lambda x: 'UPDATE' in x['sql'], connection.queries))
     print(f'query basket_add: {update_queries}')
->>>>>>> f9ae5596b3c5630bfe9ed2eb4477cae15b0b92b5
 
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+
+@login_required
+def basket_remove(request, pk):
+    basket_record = get_object_or_404(Basket, pk=pk)
+    basket_record.delete()
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
